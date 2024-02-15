@@ -8,6 +8,8 @@ import BoardListPage from "~/routes/board/page";
 import BoardWritePage from "~/routes/board/write/page";
 import BoardDetailPage from "~/routes/board/detail/page";
 import Layout from "~/routes/layout";
+import SignInPage from "~/routes/signin/page";
+import SignUpPage from "~/routes/signup/page";
 
 export const mainRouter = [
   {
@@ -18,6 +20,16 @@ export const mainRouter = [
         path: "",
         index: true,
         element: <MainPage />,
+      },
+      {
+        path: "/signin",
+        element: <SignInPage />,
+        index: true,
+      },
+      {
+        path: "/signup",
+        element: <SignUpPage />,
+        index: true,
       },
       {
         path: "/board",
