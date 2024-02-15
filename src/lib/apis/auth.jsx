@@ -5,14 +5,14 @@
 //   instance.get();
 // }
 
+import { redirect } from "react-router-dom";
 import instance from "./base";
 
-export async function login({ username, password }) {
+export async function login({ email, password }) {
   const response = await instance.post("/login", {
-    username,
+    email,
     password,
   });
-  console.log(response);
   return response;
 }
 

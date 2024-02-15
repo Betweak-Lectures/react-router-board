@@ -10,6 +10,7 @@ export default function SignUpPage() {
   const onInputChange = useCallback((inputText, setFn) => {
     setFn(inputText);
   }, []);
+
   const onRegisterSubmit = useCallback((email, password, nickname) => {
     signup({ email, password, nickname }).then((data) => {
       console.log(data);

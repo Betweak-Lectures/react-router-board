@@ -2,10 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Badge, Container, ListGroup } from "react-bootstrap";
 
 import { fetchBoardList } from "~/lib/apis/board";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const brand = "My-React-Board";
 export default function BoardListPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // http://localhost:5173/board?where=news&query=무역전쟁
+
+  console.log(searchParams);
+  console.log(searchParams.getAll("where"));
+  console.log(searchParams.getAll("query"));
+  console.log(setSearchParams);
+
   const [boardList, setBoardList] = useState([]);
   useEffect(() => {
     fetchBoardList().then((data) => {
@@ -17,6 +26,15 @@ export default function BoardListPage() {
   return (
     <Container className="min-vh-100">
       <h3>My Board</h3>
+
+      <input
+        type="text"
+        onChange={(e) => {
+          setSearchParams({
+            query: e.target.value,
+          });
+        }}
+      />
       <ListGroup as="ul">
         {boardList.map((item) => (
           <Link

@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../AuthProvider";
+import useAuth from "~/lib/hooks/useAuth";
 
 const EXPAND_BREAKPOINT = "md";
 
 export default function MyNavbar({ brandTitle, offCanvasTitle = undefined }) {
+  const { user, clientLogout } = useAuth();
+
   return (
     <Navbar
       expand={EXPAND_BREAKPOINT}
@@ -32,22 +36,41 @@ export default function MyNavbar({ brandTitle, offCanvasTitle = undefined }) {
             <Nav
               className={`justify-content-around flex-row pb-4 pb-${EXPAND_BREAKPOINT}-0`}
             >
-              <Link
-                to="/signin"
-                className="text-decoration-none flex-grow-1 text-center border border-dark border-end-0"
-              >
-                <Nav.Link as="div" className="">
-                  로그인
+              {!user ? (
+                <>
+                  <Link
+                    to="/signin"
+                    className="text-decoration-none flex-grow-1 text-center border border-dark border-end-0"
+                  >
+                    <Nav.Link as="div" className="">
+                      로그인
+                    </Nav.Link>
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="text-decoration-none flex-grow-1 text-center border border-dark"
+                  >
+                    <Nav.Link as="div" className="">
+                      회원가입
+                    </Nav.Link>
+                  </Link>
+                </>
+              ) : (
+                // <Link
+                //   to="/logout"
+                //   className="text-decoration-none flex-grow-1 text-center border border-dark border-end-0"
+                // >
+                <Nav.Link
+                  as="div"
+                  className=""
+                  onClick={() => {
+                    clientLogout();
+                  }}
+                >
+                  로그아웃
                 </Nav.Link>
-              </Link>
-              <Link
-                to="/signup"
-                className="text-decoration-none flex-grow-1 text-center border border-dark"
-              >
-                <Nav.Link as="div" className="">
-                  회원가입
-                </Nav.Link>
-              </Link>
+                // </Link>
+              )}
             </Nav>
             <Nav className="justify-content-start flex-grow-1 pe-3">
               <Link to="/" className="text-decoration-none">

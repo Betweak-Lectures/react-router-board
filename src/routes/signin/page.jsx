@@ -1,13 +1,35 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Button, Container, FloatingLabel, Form } from "react-bootstrap";
+import { redirect, useNavigate } from "react-router-dom";
+import { login } from "~/lib/apis/auth";
+// import { useAuth } from "~/lib/hooks/useAuth";
+import { AuthContext } from "~/components/AuthProvider";
+import useAuth from "~/lib/hooks/useAuth";
 
 export default function SignInPage() {
+  const { user, clientLogin } = useAuth();
+
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const navigate = useNavigate();
 
   const onInputChange = useCallback((inputText, setFn) => {
     setFn(inputText);
   }, []);
+
+  const onSubmitLogin = useCallback(
+    (email, password) => {
+      login({ email, password }).then((resp) => {
+        const user = resp.data;
+        if (user.token) {
+          delete user.token;
+          clientLogin(user);
+          navigate("/");
+        }
+      });
+    },
+    [navigate, clientLogin]
+  );
 
   return (
     <Container className="min-vh-100  d-flex flex-column justify-content-center align-items-center">
@@ -44,7 +66,15 @@ export default function SignInPage() {
           />
         </FloatingLabel>
 
-        <Button className="w-100">로그인</Button>
+        <Button
+          className="w-100"
+          onClick={(e) => {
+            e.preventDefault();
+            onSubmitLogin(userEmail, userPassword);
+          }}
+        >
+          로그인
+        </Button>
       </div>
     </Container>
   );
