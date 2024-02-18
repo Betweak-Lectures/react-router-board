@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Badge, Container, ListGroup } from "react-bootstrap";
 
-import { fetchBoardList } from "~/lib/apis/board";
+// import { fetchBoardList } from "~/lib/apis/board";
 import { Link, useSearchParams } from "react-router-dom";
+import { fetchBoardList } from "~/store/reducers/board";
+import { useDispatch } from "react-redux";
 
 const brand = "My-React-Board";
 export default function BoardListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // http://localhost:5173/board?where=news&query=무역전쟁
-
+  const dispatch = useDispatch();
   console.log(searchParams);
   console.log(searchParams.getAll("where"));
   console.log(searchParams.getAll("query"));
@@ -17,10 +19,14 @@ export default function BoardListPage() {
 
   const [boardList, setBoardList] = useState([]);
   useEffect(() => {
-    fetchBoardList().then((data) => {
-      setBoardList(data);
-      // console.log(data);
-    });
+    const action = fetchBoardList();
+    console.log(action);
+    dispatch(action);
+
+    // fetchBoardList().then((data) => {
+    //   console.log(data);
+    //   setBoardList(data);
+    // });
   }, []);
 
   return (
@@ -58,7 +64,6 @@ export default function BoardListPage() {
                   {item.commentCount}
                 </Badge>
                 <div>{item.author.nickname}</div>
-                {/* {item.createdAt} */}
               </div>
             </ListGroup.Item>
           </Link>

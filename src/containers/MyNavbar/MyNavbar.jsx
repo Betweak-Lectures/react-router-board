@@ -3,13 +3,15 @@
 import React, { useContext, useEffect } from "react";
 import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../AuthProvider";
+import { AuthContext } from "~/components/AuthProvider";
 import useAuth from "~/lib/hooks/useAuth";
+import { useSelector, useDispatch } from "react-redux";
 
 const EXPAND_BREAKPOINT = "md";
 
 export default function MyNavbar({ brandTitle, offCanvasTitle = undefined }) {
   const { user, clientLogout } = useAuth();
+  const todos = useSelector((state) => state.todo.todos);
 
   return (
     <Navbar
@@ -56,10 +58,6 @@ export default function MyNavbar({ brandTitle, offCanvasTitle = undefined }) {
                   </Link>
                 </>
               ) : (
-                // <Link
-                //   to="/logout"
-                //   className="text-decoration-none flex-grow-1 text-center border border-dark border-end-0"
-                // >
                 <Nav.Link
                   as="div"
                   className=""
@@ -78,6 +76,9 @@ export default function MyNavbar({ brandTitle, offCanvasTitle = undefined }) {
               </Link>
               <Link to="/board" className="text-decoration-none">
                 <Nav.Link as="div">게시판</Nav.Link>
+              </Link>
+              <Link to="/todo" className="text-decoration-none">
+                <Nav.Link as="div">Todo({todos.length})</Nav.Link>
               </Link>
             </Nav>
           </Offcanvas.Body>
