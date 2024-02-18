@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Container, ListGroup } from "react-bootstrap";
+import { Badge, Button, Container, ListGroup } from "react-bootstrap";
 
 import { fetchBoardList } from "~/lib/apis/board";
 import { Link, useSearchParams } from "react-router-dom";
@@ -26,15 +26,20 @@ export default function BoardListPage() {
   return (
     <Container className="min-vh-100">
       <h3>My Board</h3>
+      <div className="d-flex mb-3 flex-row justify-content-between flex-wrap">
+        <input
+          type="text"
+          onChange={(e) => {
+            setSearchParams({
+              query: e.target.value,
+            });
+          }}
+        />
+        <Button variant="success" as={Link} to="/board/write">
+          작성
+        </Button>
+      </div>
 
-      <input
-        type="text"
-        onChange={(e) => {
-          setSearchParams({
-            query: e.target.value,
-          });
-        }}
-      />
       <ListGroup as="ul">
         {boardList.map((item) => (
           <Link

@@ -26,6 +26,6 @@ export async function signup({ email, password, nickname }) {
   return response;
 }
 
-// export async function logout() {
-//   const response = await axios.post("http://127.0.0.1:3000/api/board");
-// }
+export async function logout() {
+  const response = await instance.get("/logout");
+}

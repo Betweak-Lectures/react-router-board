@@ -17,6 +17,11 @@ export default {
       index: true,
     },
     {
+      path: ":boardId/edit",
+      element: <BoardWritePage />,
+      index: true,
+    },
+    {
       path: ":boardId",
       element: <BoardDetailPage />,
       index: true,

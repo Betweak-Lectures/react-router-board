@@ -5,6 +5,7 @@ import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 import useAuth from "~/lib/hooks/useAuth";
+import { logout } from "~/lib/apis/auth";
 
 const EXPAND_BREAKPOINT = "md";
 
@@ -65,6 +66,7 @@ export default function MyNavbar({ brandTitle, offCanvasTitle = undefined }) {
                   className=""
                   onClick={() => {
                     clientLogout();
+                    logout().then((resp) => {});
                   }}
                 >
                   로그아웃
