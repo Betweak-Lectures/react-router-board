@@ -37,7 +37,7 @@ import { v4 as uuidv4 } from "uuid";
 export default function TodoPage() {
   const todoList = useSelector((state) => state.todo.todoList);
   const dispatch = useDispatch();
-  const [input, setInput] = useState();
+  const [inputText, setInputText] = useState("");
 
   const [activeColor, setActiveColor] = useState("blue");
   const handleRemove = (todoId) => {
@@ -48,11 +48,11 @@ export default function TodoPage() {
   const handleAdd = useCallback(() => {
     const action = addTodo({
       id: uuidv4(),
-      content: input,
+      content: inputText,
       color: activeColor,
     });
     dispatch(action);
-  }, [dispatch, activeColor, input]);
+  }, [dispatch, activeColor, inputText]);
 
   const renderColor = useMemo(() => {
     return COLOR_PICK.map((elem) => {
@@ -80,16 +80,17 @@ export default function TodoPage() {
           <InputGroup className="mb-3">
             <FormControl
               placeholder="할 일을 입력하세요"
-              value={input}
+              value={inputText}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
+                  if (e.nativeEvent.isComposing) return;
                   e.preventDefault();
                   handleAdd();
                 }
               }}
               onChange={(e) => {
                 e.preventDefault();
-                setInput(e.target.value);
+                setInputText(e.target.value);
               }}
             />
             <Button variant="outline-secondary" onClick={handleAdd}>
