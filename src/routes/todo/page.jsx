@@ -40,6 +40,11 @@ export default function TodoPage() {
   const [input, setInput] = useState();
 
   const [activeColor, setActiveColor] = useState("blue");
+  const handleRemove = (todoId) => {
+    const action = removeTodo(todoId);
+    dispatch(action);
+  };
+
   const handleAdd = useCallback(() => {
     const action = addTodo({
       id: uuidv4(),
@@ -104,7 +109,13 @@ export default function TodoPage() {
                   ></div>
                   <div style={{ paddingLeft: 15 }}>{todo.content}</div>
                 </div>
-                <Button variant="outline-danger" size="sm">
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={() => {
+                    handleRemove(todo.id);
+                  }}
+                >
                   삭제
                 </Button>
               </ListGroup.Item>
