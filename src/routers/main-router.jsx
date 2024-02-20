@@ -10,6 +10,7 @@ import BoardDetailPage from "~/routes/board/detail/page";
 import Layout from "~/routes/layout";
 import SignInPage from "~/routes/signin/page";
 import SignUpPage from "~/routes/signup/page";
+import TodoPage from "~/routes/todo/page";
 
 export const mainRouter = [
   {
@@ -29,6 +30,11 @@ export const mainRouter = [
       {
         path: "/signup",
         element: <SignUpPage />,
+        index: true,
+      },
+      {
+        path: "/todo",
+        element: <TodoPage />,
         index: true,
       },
       {

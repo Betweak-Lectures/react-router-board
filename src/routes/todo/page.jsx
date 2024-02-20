@@ -8,6 +8,10 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+
+// action creator
+import { addTodo, removeTodo } from "~/store/reducers/todo";
 
 const COLOR_PICK = [
   {
@@ -28,10 +32,22 @@ const COLOR_PICK = [
   },
 ];
 
+import { v4 as uuidv4 } from "uuid";
+
 export default function TodoPage() {
+  const todoList = useSelector((state) => state.todo.todoList);
+  const dispatch = useDispatch();
   const [input, setInput] = useState();
-  const handleAdd = () => {};
+
   const [activeColor, setActiveColor] = useState("blue");
+  const handleAdd = () => {
+    const action = addTodo({
+      id: uuidv4(),
+      content: input,
+      color: activeColor,
+    });
+    dispatch(action);
+  };
 
   const renderColor = () => {
     return COLOR_PICK.map((elem) => {
@@ -43,10 +59,9 @@ export default function TodoPage() {
             setActiveColor(elem.color);
           }}
           style={{
-            borderWidth: activeColor?.color === elem.color ? 3 : 0,
+            borderWidth: activeColor === elem.color ? 3 : 0,
             borderStyle: "solid",
             borderColor: "black",
-
             backgroundColor: elem.color,
           }}
         ></Button>
@@ -74,24 +89,26 @@ export default function TodoPage() {
           </InputGroup>
           <div className="d-flex flex-row ">{renderColor()}</div>
           <ListGroup>
-            <ListGroup.Item
-              //   key={todo.id}
-              className="d-flex justify-content-between align-items-center"
-            >
-              <div className="position-relative">
-                <div
-                  className="h-100 position-absolute"
-                  style={{
-                    // backgroundColor: todo.color,
-                    width: 10,
-                  }}
-                ></div>
-                <div style={{ paddingLeft: 15 }}>{/* {todo.content} */}</div>
-              </div>
-              <Button variant="outline-danger" size="sm">
-                삭제
-              </Button>
-            </ListGroup.Item>
+            {todoList.map((todo) => (
+              <ListGroup.Item
+                key={todo.id}
+                className="d-flex justify-content-between align-items-center"
+              >
+                <div className="position-relative">
+                  <div
+                    className="h-100 position-absolute"
+                    style={{
+                      backgroundColor: todo.color,
+                      width: 10,
+                    }}
+                  ></div>
+                  <div style={{ paddingLeft: 15 }}>{todo.content}</div>
+                </div>
+                <Button variant="outline-danger" size="sm">
+                  삭제
+                </Button>
+              </ListGroup.Item>
+            ))}
           </ListGroup>
         </Col>
       </Row>
