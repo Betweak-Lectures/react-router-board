@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   Container,
   Row,
@@ -40,16 +40,16 @@ export default function TodoPage() {
   const [input, setInput] = useState();
 
   const [activeColor, setActiveColor] = useState("blue");
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     const action = addTodo({
       id: uuidv4(),
       content: input,
       color: activeColor,
     });
     dispatch(action);
-  };
+  }, [dispatch, activeColor, input]);
 
-  const renderColor = () => {
+  const renderColor = useMemo(() => {
     return COLOR_PICK.map((elem) => {
       return (
         <Button
@@ -67,7 +67,7 @@ export default function TodoPage() {
         ></Button>
       );
     });
-  };
+  }, [activeColor]);
   return (
     <Container className="min-vh-100">
       <Row className="justify-content-md-center">
@@ -87,7 +87,7 @@ export default function TodoPage() {
               추가
             </Button>
           </InputGroup>
-          <div className="d-flex flex-row ">{renderColor()}</div>
+          <div className="d-flex flex-row ">{renderColor}</div>
           <ListGroup>
             {todoList.map((todo) => (
               <ListGroup.Item
