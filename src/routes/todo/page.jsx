@@ -83,10 +83,14 @@ export default function TodoPage() {
               value={input}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
+                  e.preventDefault();
                   handleAdd();
                 }
               }}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                e.preventDefault();
+                setInput(e.target.value);
+              }}
             />
             <Button variant="outline-secondary" onClick={handleAdd}>
               추가
