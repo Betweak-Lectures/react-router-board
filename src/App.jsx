@@ -4,15 +4,18 @@ import router from "./routers/main-router";
 import ThemeProvider from "./components/ThemeProvider";
 import AuthProvider from "./components/AuthProvider";
 import { Provider } from "react-redux";
-import store from "./store";
+import { store, persistor } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
   return (
     <>
       <Provider store={store}>
-        <AuthProvider>
-          <RouterProvider router={router} />
-        </AuthProvider>
+        <PersistGate persistor={persistor}>
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
+        </PersistGate>
       </Provider>
     </>
   );

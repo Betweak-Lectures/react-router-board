@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Container,
   Row,
@@ -44,7 +44,11 @@ export default function TodoPage() {
     const action = removeTodo(todoId);
     dispatch(action);
   };
+
   const [undo, setUndo] = useState(null);
+  useEffect(() => {
+    setUndo(null);
+  }, [todoList]);
 
   const handleAdd = useCallback(() => {
     const action = addTodo({
@@ -107,14 +111,16 @@ export default function TodoPage() {
           </InputGroup>
 
           <div style={{ height: 30 }}>
-            <Button
-              onClick={() => {
-                undo();
-              }}
-              variant="danger"
-            >
-              실행취소
-            </Button>
+            {undo ? (
+              <Button
+                onClick={() => {
+                  undo();
+                }}
+                variant="danger"
+              >
+                실행취소
+              </Button>
+            ) : null}
           </div>
 
           <div className="d-flex flex-row ">{renderColor}</div>
