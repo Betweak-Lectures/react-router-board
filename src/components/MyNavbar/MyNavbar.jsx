@@ -1,16 +1,22 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 import useAuth from "~/lib/hooks/useAuth";
 import { logout } from "~/lib/apis/auth";
+import { useSelector } from "react-redux";
 
 const EXPAND_BREAKPOINT = "md";
 
 export default function MyNavbar({ brandTitle, offCanvasTitle = undefined }) {
   const { user, clientLogout } = useAuth();
+  const todoList = useSelector((state) => state.todo.todoList);
+
+  const todoNum = useMemo(() => {
+    return todoList.length;
+  }, [todoList]);
 
   return (
     <Navbar
@@ -82,7 +88,7 @@ export default function MyNavbar({ brandTitle, offCanvasTitle = undefined }) {
                 <Nav.Link as="div">게시판</Nav.Link>
               </Link>
               <Link to="/todo" className="text-decoration-none">
-                <Nav.Link as="div">TODO</Nav.Link>
+                <Nav.Link as="div">TODO({todoNum})</Nav.Link>
               </Link>
             </Nav>
           </Offcanvas.Body>

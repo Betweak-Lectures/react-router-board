@@ -44,6 +44,8 @@ export default function TodoPage() {
     const action = removeTodo(todoId);
     dispatch(action);
   };
+  const [cancel, setCancel] = useState(() => {});
+  const [isCancel, setIsCancel] = useState(false);
 
   const handleAdd = useCallback(() => {
     const action = addTodo({
@@ -51,8 +53,19 @@ export default function TodoPage() {
       content: inputText,
       color: activeColor,
     });
-    dispatch(action);
+    action.meta = {
+      delay: 5000,
+    };
+    const cancelFn = dispatch(action);
+    setCancel(() => cancelFn);
   }, [dispatch, activeColor, inputText]);
+
+  const handleCancel = useCallback(() => {
+    if (cancel) {
+      cancel();
+    }
+    setCancel(null);
+  }, [cancel]);
 
   const renderColor = useMemo(() => {
     return COLOR_PICK.map((elem) => {
@@ -97,6 +110,15 @@ export default function TodoPage() {
               추가
             </Button>
           </InputGroup>
+
+          <div style={{ height: 30 }}>
+            {cancel ? (
+              <Button variant="danger" onClick={() => handleCancel()}>
+                실행취소
+              </Button>
+            ) : null}
+          </div>
+
           <div className="d-flex flex-row ">{renderColor}</div>
           <ListGroup>
             {todoList.map((todo) => (
