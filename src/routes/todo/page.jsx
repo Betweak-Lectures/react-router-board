@@ -44,8 +44,7 @@ export default function TodoPage() {
     const action = removeTodo(todoId);
     dispatch(action);
   };
-  const [cancel, setCancel] = useState(() => {});
-  const [isCancel, setIsCancel] = useState(false);
+  const [undo, setUndo] = useState(null);
 
   const handleAdd = useCallback(() => {
     const action = addTodo({
@@ -57,15 +56,11 @@ export default function TodoPage() {
       delay: 5000,
     };
     const cancelFn = dispatch(action);
-    setCancel(() => cancelFn);
-  }, [dispatch, activeColor, inputText]);
+    setUndo(() => cancelFn);
 
-  const handleCancel = useCallback(() => {
-    if (cancel) {
-      cancel();
-    }
-    setCancel(null);
-  }, [cancel]);
+    // setTodoList(newTodoList)
+    // setTodoList(prev=>prev.concat(newItem))
+  }, [dispatch, activeColor, inputText]);
 
   const renderColor = useMemo(() => {
     return COLOR_PICK.map((elem) => {
@@ -112,11 +107,14 @@ export default function TodoPage() {
           </InputGroup>
 
           <div style={{ height: 30 }}>
-            {cancel ? (
-              <Button variant="danger" onClick={() => handleCancel()}>
-                실행취소
-              </Button>
-            ) : null}
+            <Button
+              onClick={() => {
+                undo();
+              }}
+              variant="danger"
+            >
+              실행취소
+            </Button>
           </div>
 
           <div className="d-flex flex-row ">{renderColor}</div>
