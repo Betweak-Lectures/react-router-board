@@ -15,6 +15,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
+import boardReducer from "./reducers/board";
 
 const rootPersistConfig = {
   key: "root",
@@ -28,6 +29,7 @@ const rootReducer = persistReducer(
   rootPersistConfig,
   combineReducers({
     todo: todoReducer,
+    board: boardReducer,
   })
 );
 
