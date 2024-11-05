@@ -9,16 +9,10 @@ export default function BoardListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // http://localhost:5173/board?where=news&query=무역전쟁
-
-  console.log(searchParams);
-  console.log(searchParams.getAll("where"));
-  console.log(searchParams.getAll("query"));
-  console.log(setSearchParams);
-
   const [boardList, setBoardList] = useState([]);
   useEffect(() => {
-    fetchBoardList().then((data) => {
-      setBoardList(data);
+    fetchBoardList().then((resp) => {
+      setBoardList(resp.data);
       // console.log(data);
     });
   }, []);

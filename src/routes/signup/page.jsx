@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { Button, Container, FloatingLabel, Form } from "react-bootstrap";
 import { login, signup } from "~/lib/apis/auth";
 
-export default function SignUpPage() {
+export default function SignupPage() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userNickname, setUserNickname] = useState("");

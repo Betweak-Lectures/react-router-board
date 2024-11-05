@@ -6,7 +6,7 @@ import { login } from "~/lib/apis/auth";
 import { AuthContext } from "~/components/AuthProvider";
 import useAuth from "~/lib/hooks/useAuth";
 
-export default function SignInPage() {
+export default function LoginPage() {
   const { user, clientLogin } = useAuth();
 
   const [userEmail, setUserEmail] = useState("");
